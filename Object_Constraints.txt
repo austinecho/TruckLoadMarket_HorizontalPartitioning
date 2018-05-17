@@ -1,207 +1,115 @@
+TruckLoadMarket
 NOTES:
 Change DB project
 Check if UQ index is needed for PKs (if it isn't identity)
 
 **** DB01  ****
 
-** DocumentManagementReport.Image **
-Date Column: CreateDate (1 year)
-Clustered Index: CIX_DocumentManagementReport_Image_CreateDate
+** LoadToEquip.LoadToEquipment  **
+Date Column: RecordedDate (1 year)
+Clustered Index: CIX_LoadToEquip_LoadToEquipment_RecordedDate 
 
 -- Current --
 
 - PK
-	PK_Image
+	PK__LoadToEq__0A6E807B7F60ED59
 	
 - FK
-	FK_Image_Load
-	FK_Image_SourceFile
-	
+	FK_LoadToEquipment_MarketFile
+	fk_Market_DestMarketID
+	fk_Market_OriginMarketID
+
 - Index
-	IX_Image_UploadId
-	
+	IX_LoadToEquipment_DestMarketID_OriginMarketID
+	IX_LoadToEquipment_EquipmentCategoryCode_DestMarketID_OriginMarketID
+
 - Constraint
 	N/A
 
 -- New --
 - PK
-	PK_DocumentManagementReport_Image_ImageId_CreateDate
+	PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate 
 	
 - FK
-	FK_DocumentManagementReport_Image_DocumentManagementReport_Load_LoadID
-	FK_DocumentManagementReport_Image_DocumentManagementReport_SourceFile_SourceFileId
+	FK_LoadToEquip_LoadToEquipment_Log_MarketFile_MarketFileID
+	FK_LoadToEquip_LoadToEquipment_DestMarketID_Reference_Market_MarketID
+	FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_MarketID
 	
 - Index
-	IX_DocumentManagementReport_Image_UploadId_Incl
+	IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_EquipmentCategoryCode_Incl
+	IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_Incl -- Don't know if this is needed because of above
 	
 - Constraint
 	N/A
-
-** dbo.FastLaneDocs **
-Date Column: SubmittedDate (2 years)
-Clustered Index: CIX_FastLaneDocs_SubmittedDate
-
--- Current --
-
-- PK
-	PK_FastLaneDocs
-
-- FK
-	N/A
-	
-- Index
-	N/A
-	
-- Constraint
-	DF__FastLaneD__RecSt__7FB5F314
-	DF__FastLaneD__Statu__7EC1CEDB
-	DF__FastLaneD__Submi__7DCDAAA2
-
--- New --
-- PK
-	PK_FastLaneDocs_FastLaneDocId_SubmittedDate
-	
-- FK
-	N/A
-	
-- Index
-	N/A
-	
-- Constraint
-	DF_FastLaneDocs_SubmittedDate
-	DF_FastLaneDocs_StatusCode
-	DF_FastLaneDocs_RecStatus
 
 --====================================================================================================================
 --====================================================================================================================
 
 **** DataTeam4 ****
 
-** DocumentManagementReport.Image **
-Date Column: CreateDate (1 year)
-Clustered Index: CIX_DocumentManagementReport_Image_CreateDate
+** LoadToEquip.LoadToEquipment  **
+Date Column: RecordedDate (1 year)
+Clustered Index: CIX_LoadToEquip_LoadToEquipment_RecordedDate 
 
 -- Current --
 
 - PK
-	PK_Image
+	PK__LoadToEq__0A6E807B014935CB
 	
 - FK
-	FK_Image_Load
-	FK_Image_SourceFile
-	
+	FK_LoadToEquipment_MarketFile
+	fk_Market_DestMarketID
+	fk_Market_OriginMarketID
+
 - Index
-	IX_Image_UploadId
-	
+	IX_LoadToEquipment_DestMarketID_OriginMarketID
+	IX_LoadToEquipment_EquipmentCategoryCode_DestMarketID_OriginMarketID
+
 - Constraint
 	N/A
 
 -- New --
 - PK
-	PK_DocumentManagementReport_Image_ImageId_CreateDate
+	PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate 
 	
 - FK
-	FK_DocumentManagementReport_Image_DocumentManagementReport_Load_LoadID
-	FK_DocumentManagementReport_Image_DocumentManagementReport_SourceFile_SourceFileId
+	FK_LoadToEquip_LoadToEquipment_Log_MarketFile_MarketFileID
+	FK_LoadToEquip_LoadToEquipment_DestMarketID_Reference_Market_MarketID
+	FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_MarketID
 	
 - Index
-	IX_DocumentManagementReport_Image_UploadId_Incl
+	IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_EquipmentCategoryCode_Incl
+	IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_Incl -- Don't know if this is needed because of above
 	
 - Constraint
 	N/A
 
-** dbo.FastLaneDocs **
-Date Column: SubmittedDate (2 years)
-Clustered Index: CIX_FastLaneDocs_SubmittedDate
-
--- Current --
-
-- PK
-	PK_FastLaneDocs
-
-- FK
-	N/A
-	
-- Index
-	N/A
-	
-- Constraint
-	DF__FastLaneD__RecSt__182C9B23
-	DF__FastLaneD__Statu__173876EA
-	DF__FastLaneD__Submi__164452B1
-
--- New --
-- PK
-	PK_FastLaneDocs_FastLaneDocId_SubmittedDate
-	
-- FK
-	N/A
-	
-- Index
-	N/A
-	
-- Constraint
-	DF_FastLaneDocs_SubmittedDate
-	DF_FastLaneDocs_StatusCode
-	DF_FastLaneDocs_RecStatus
-	
 --====================================================================================================================
 --====================================================================================================================
 	
 **** DB02  ****
 
-** DocumentManagementReport.Image **
-Date Column: CreateDate (1 year)
-Clustered Index: CIX_DocumentManagementReport_Image_CreateDate
+** LoadToEquip.LoadToEquipment  **
+Date Column: RecordedDate (1 year)
+Clustered Index: CIX_LoadToEquip_LoadToEquipment_RecordedDate 
 
 -- Current --
 
 - PK
-	PK_Image
+	PK__LoadToEq__0A6E807B7F60ED59
 	
 - FK
 	N/A
-	
+
 - Index
-	TestX_LoadID_cov
-	
+	N/A
+
 - Constraint
 	N/A
 
 -- New --
 - PK
-	PK_DocumentManagementReport_Image_ImageId_CreateDate
-	
-- FK
-	N/A
-	
-- Index
-	IX_DocumentManagementReport_Image_LoadId_DocumentName_DocumentTypeId_StartTimeInWorkspaceDate_UpdateDate
-	
-- Constraint
-	N/A
-
-** dbo.FastLaneDocs **
-Date Column: SubmittedDate (2 years)
-Clustered Index: CIX_FastLaneDocs_SubmittedDate
-
--- Current --
-
-- PK
-	PK_FastLaneDocs
-
-- FK
-	N/A
-	
-- Index
-	N/A
-	
-- Constraint
-	N/A
-
--- New --
-- PK
-	PK_FastLaneDocs_FastLaneDocId_SubmittedDate
+	PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate 
 	
 - FK
 	N/A
@@ -217,58 +125,27 @@ Clustered Index: CIX_FastLaneDocs_SubmittedDate
 
 **** DataTeam4 ****
 
-** DocumentManagementReport.Image **
-Date Column: CreateDate (1 year)
-Clustered Index: CIX_DocumentManagementReport_Image_CreateDate
+** LoadToEquip.LoadToEquipment  **
+Date Column: RecordedDate (1 year)
+Clustered Index: CIX_LoadToEquip_LoadToEquipment_RecordedDate 
 
 -- Current --
 
 - PK
-	PK_Image
+	PK__LoadToEq__0A6E807B7F60ED59
 	
 - FK
 	N/A
-	
+
 - Index
-	TestX_LoadID_cov
-	
+	N/A
+
 - Constraint
 	N/A
 
 -- New --
 - PK
-	PK_DocumentManagementReport_Image_ImageId_CreateDate
-	
-- FK
-	N/A
-	
-- Index
-	IX_DocumentManagementReport_Image_LoadId_DocumentName_DocumentTypeId_StartTimeInWorkspaceDate_UpdateDate
-	
-- Constraint
-	N/A
-
-** dbo.FastLaneDocs **
-Date Column: SubmittedDate (2 years)
-Clustered Index: CIX_FastLaneDocs_SubmittedDate
-
--- Current --
-
-- PK
-	PK_FastLaneDocs
-
-- FK
-	N/A
-	
-- Index
-	N/A
-	
-- Constraint
-	N/A
-
--- New --
-- PK
-	PK_FastLaneDocs_FastLaneDocId_SubmittedDate
+	PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate 
 	
 - FK
 	N/A
