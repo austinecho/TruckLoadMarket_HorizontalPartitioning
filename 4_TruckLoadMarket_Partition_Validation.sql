@@ -1,12 +1,12 @@
 /*
 DataTeam
-databaseName Partitioning
+TruckLoadMarket Partitioning
 
 Validation
 
 Run in DB01VPRD Equivilant 
 */
-USE databaseName
+USE TruckLoadMarket
 GO
 
 -- View Partitioned Table Information (Advanced) 

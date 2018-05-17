@@ -1,6 +1,6 @@
 /*
 DataTeam
-databaseName Partitioning
+TruckLoadMarket Partitioning
 
 •	ADD New File Group
 •	ADD 2 Partition Functions
@@ -8,7 +8,7 @@ databaseName Partitioning
 
 Run in DB01VPRD Equivalent
 */
-USE databaseName;
+USE TruckLoadMarket;
 GO
 
 IF ( SELECT @@SERVERNAME ) = 'DB01VPRD' BEGIN PRINT 'Running in Environment DB01VPRD...'; END;
@@ -21,31 +21,31 @@ ELSE BEGIN PRINT 'ERROR: Server name not found. Process stopped.'; RETURN; END;
 --===================================================================================================
 PRINT '*** ADD FILE GROUP AND FILE***';
 
-IF NOT EXISTS ( SELECT 1 FROM sys.filegroups WHERE name = '$databaseName_Archive' )
+IF NOT EXISTS ( SELECT 1 FROM sys.filegroups WHERE name = '$TruckLoadMarket_Archive' )
 BEGIN 
-	ALTER DATABASE databaseName ADD FILEGROUP databaseName_Archive;
+	ALTER DATABASE TruckLoadMarket ADD FILEGROUP TruckLoadMarket_Archive;
 
 	IF ( SELECT @@SERVERNAME ) = 'DB01VPRD'
 	BEGIN
 		--PROD --Note: N:\Data\EchoTrak.MDF --PRIMARY
-		ALTER DATABASE databaseName ADD FILE ( NAME = 'databaseName_Archive', FILENAME = N'N:\Data\databaseName_Archive.NDF', SIZE = 6GB, MAXSIZE = UNLIMITED, FILEGROWTH = 1GB )
-		TO FILEGROUP databaseName_Archive;
+		ALTER DATABASE TruckLoadMarket ADD FILE ( NAME = 'TruckLoadMarket_Archive', FILENAME = N'N:\Data\TruckLoadMarket_Archive.NDF', SIZE = 6GB, MAXSIZE = UNLIMITED, FILEGROWTH = 1GB )
+		TO FILEGROUP TruckLoadMarket_Archive;
 	END;
 	ELSE IF ( SELECT @@SERVERNAME ) = 'QA4-DB01'
 	BEGIN
 		--QA4 --Note: N:\Data\EchoTrak.MDF --PRIMARY
-		ALTER DATABASE databaseName ADD FILE ( NAME = 'databaseName_Archive', FILENAME = N'N:\Data\databaseName_Archive.NDF', SIZE = 6GB, MAXSIZE = UNLIMITED, FILEGROWTH = 1GB )
-		TO FILEGROUP databaseName_Archive;
+		ALTER DATABASE TruckLoadMarket ADD FILE ( NAME = 'TruckLoadMarket_Archive', FILENAME = N'N:\Data\TruckLoadMarket_Archive.NDF', SIZE = 6GB, MAXSIZE = UNLIMITED, FILEGROWTH = 1GB )
+		TO FILEGROUP TruckLoadMarket_Archive;
 	END;
 	ELSE IF ( SELECT @@SERVERNAME ) = 'DATATEAM4-DB01\DB01'
 	BEGIN
 		--DEV DT4 --Note: D:\Data\EchoTrak\EchoTrak_Primary.mdf --PRIMARY
-		ALTER DATABASE databaseName ADD FILE ( NAME = 'databaseName_Archive', FILENAME = N'D:\Data\databaseName_Archive.NDF', SIZE = 6GB, MAXSIZE = UNLIMITED, FILEGROWTH = 1GB )
-		TO FILEGROUP databaseName_Archive;
-		PRINT '- File [databaseName_Archive] added';
+		ALTER DATABASE TruckLoadMarket ADD FILE ( NAME = 'TruckLoadMarket_Archive', FILENAME = N'D:\Data\TruckLoadMarket_Archive.NDF', SIZE = 6GB, MAXSIZE = UNLIMITED, FILEGROWTH = 1GB )
+		TO FILEGROUP TruckLoadMarket_Archive;
+		PRINT '- File [TruckLoadMarket_Archive] added';
 	END;
 
-	PRINT '- Filegroup [databaseName_Archive] added';
+	PRINT '- Filegroup [TruckLoadMarket_Archive] added';
 END;
 ELSE
 BEGIN
@@ -58,11 +58,11 @@ GO
 --===================================================================================================
 PRINT '*** ADD PARTITION FUNCTION ***';
 
-IF NOT EXISTS ( SELECT 1 FROM sys.partition_functions WHERE name = 'PF_databaseName_DATETIME_2Year' )
+IF NOT EXISTS ( SELECT 1 FROM sys.partition_functions WHERE name = 'PF_TruckLoadMarket_DATETIME_1Year' )
 BEGIN
-    CREATE PARTITION FUNCTION PF_databaseName_DATETIME_2Year ( DATETIME ) AS RANGE RIGHT FOR VALUES ( '' ); 
+    CREATE PARTITION FUNCTION PF_TruckLoadMarket_DATETIME_1Year ( DATETIME ) AS RANGE RIGHT FOR VALUES ( '2017-01-01 00:00:00.000' ); 
 
-    PRINT '- Partition Function [PF_databaseName_DATETIME_2Year] added';
+    PRINT '- Partition Function [PF_TruckLoadMarket_DATETIME_1Year] added';
 END;
 ELSE
 BEGIN
@@ -75,11 +75,11 @@ GO
 --===================================================================================================
 PRINT '*** ADD PARTITION SCHEME ***';
 
-IF NOT EXISTS ( SELECT 1 FROM sys.partition_schemes WHERE name = 'PS_databaseName_DATETIME_2Year' )
+IF NOT EXISTS ( SELECT 1 FROM sys.partition_schemes WHERE name = 'PS_TruckLoadMarket_DATETIME_1Year' )
 BEGIN
-    CREATE PARTITION SCHEME PS_databaseName_DATETIME_2Year AS PARTITION PF_databaseName_DATETIME_2Year TO ( databaseName_Archive, [PRIMARY] );
+    CREATE PARTITION SCHEME PS_TruckLoadMarket_DATETIME_1Year AS PARTITION PF_TruckLoadMarket_DATETIME_1Year TO ( TruckLoadMarket_Archive, [PRIMARY] );
 
-	PRINT '- Partition Scheme [PS_databaseName_DATETIME_2Year] added';
+	PRINT '- Partition Scheme [PS_TruckLoadMarket_DATETIME_1Year] added';
 END;
 ELSE
 BEGIN
@@ -89,11 +89,11 @@ GO
 
 --Verify: Check existance
 /*
-SELECT * FROM sys.partition_functions WHERE name = 'PF_databaseName_DATETIME_2Year';
+SELECT * FROM sys.partition_functions WHERE name = 'PF_TruckLoadMarket_DATETIME_1Year';
 
-SELECT * FROM sys.partition_schemes WHERE name = 'PS_databaseName_DATETIME_2Year';
+SELECT * FROM sys.partition_schemes WHERE name = 'PS_TruckLoadMarket_DATETIME_1Year';
 
-SELECT * FROM sys.filegroups WHERE name = 'databaseName_Archive'
+SELECT * FROM sys.filegroups WHERE name = 'TruckLoadMarket_Archive'
 
 */
 
