@@ -40,7 +40,7 @@ Clustered Index: CIX_LoadToEquip_LoadToEquipment_RecordedDate
 	IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_Incl -- Don't know if this is needed because of above
 	
 - Constraint
-	N/A
+	UX_LoadToEquip_LoadToEquipment_LoadToEquipmentID
 
 --====================================================================================================================
 --====================================================================================================================

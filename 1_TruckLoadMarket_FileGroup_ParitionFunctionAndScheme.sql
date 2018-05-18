@@ -21,7 +21,7 @@ ELSE BEGIN PRINT 'ERROR: Server name not found. Process stopped.'; RETURN; END;
 --===================================================================================================
 PRINT '*** ADD FILE GROUP AND FILE***';
 
-IF NOT EXISTS ( SELECT 1 FROM sys.filegroups WHERE name = '$TruckLoadMarket_Archive' )
+IF NOT EXISTS ( SELECT 1 FROM sys.filegroups WHERE name = 'TruckLoadMarket_Archive' )
 BEGIN 
 	ALTER DATABASE TruckLoadMarket ADD FILEGROUP TruckLoadMarket_Archive;
 
