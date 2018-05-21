@@ -184,7 +184,7 @@ END;
 
 CREATE CLUSTERED INDEX CIX_LoadToEquip_LoadToEquipment_RecordedDate 
 ON LoadToEquip.LoadToEquipment ( RecordedDate ASC )
-WITH ( SORT_IN_TEMPDB = ON, ONLINE = ON ) ON PS_TruckLoadMarket_DATETIME_1Year(RecordedDate);
+WITH ( SORT_IN_TEMPDB = ON, ONLINE = ON ) ON PS_TruckLoadMarket_SMALLDATETIME_1Year(RecordedDate);
 PRINT '- Index [CIX_LoadToEquip_LoadToEquipment_RecordedDate] Created';
 
 
@@ -207,7 +207,7 @@ END;
 ALTER TABLE LoadToEquip.LoadToEquipment
 ADD CONSTRAINT PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate 
     PRIMARY KEY NONCLUSTERED ( LoadToEquipmentID, RecordedDate)
-    WITH ( SORT_IN_TEMPDB = ON, ONLINE = ON ) ON PS_TruckLoadMarket_DATETIME_1Year(RecordedDate);
+    WITH ( SORT_IN_TEMPDB = ON, ONLINE = ON ) ON PS_TruckLoadMarket_SMALLDATETIME_1Year(RecordedDate);
 PRINT '- PK [PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate] Created';
 
 --===================================================================================================
@@ -224,8 +224,6 @@ ALTER TABLE LoadToEquip.LoadToEquipment WITH NOCHECK
 ADD CONSTRAINT FK_LoadToEquip_LoadToEquipment_Log_MarketFile_MarketFileID
     FOREIGN KEY ( MarketFileID )
     REFERENCES [Log].[MarketFile] ( MarketFileID ) 
-	ON DELETE CASCADE
-	ON UPDATE CASCADE;
 PRINT '- FK [FK_LoadToEquip_LoadToEquipment_Log_MarketFile_MarketFileID] Created';
 
 ALTER TABLE LoadToEquip.LoadToEquipment CHECK CONSTRAINT FK_LoadToEquip_LoadToEquipment_Log_MarketFile_MarketFileID;
@@ -236,8 +234,6 @@ ALTER TABLE LoadToEquip.LoadToEquipment WITH NOCHECK
 ADD CONSTRAINT FK_LoadToEquip_LoadToEquipment_DestMarketID_Reference_Market_MarketID
     FOREIGN KEY ( DestMarketID )
     REFERENCES Reference.Market ( MarketID ) 
-	ON DELETE CASCADE
-	ON UPDATE CASCADE;
 PRINT '- FK [FK_LoadToEquip_LoadToEquipment_DestMarketID_Reference_Market_MarketID] Created';
 
 ALTER TABLE LoadToEquip.LoadToEquipment CHECK CONSTRAINT FK_LoadToEquip_LoadToEquipment_DestMarketID_Reference_Market_MarketID;
@@ -248,8 +244,6 @@ ALTER TABLE LoadToEquip.LoadToEquipment WITH NOCHECK
 ADD CONSTRAINT FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_MarketID
     FOREIGN KEY ( OriginMarketID )
     REFERENCES Reference.Market ( MarketID ) 
-	ON DELETE CASCADE
-	ON UPDATE CASCADE;
 PRINT '- FK [FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_MarketID] Created';
 
 ALTER TABLE LoadToEquip.LoadToEquipment CHECK CONSTRAINT FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_MarketID;

@@ -58,11 +58,11 @@ GO
 --===================================================================================================
 PRINT '*** ADD PARTITION FUNCTION ***';
 
-IF NOT EXISTS ( SELECT 1 FROM sys.partition_functions WHERE name = 'PF_TruckLoadMarket_DATETIME_1Year' )
+IF NOT EXISTS ( SELECT 1 FROM sys.partition_functions WHERE name = 'PF_TruckLoadMarket_SMALLDATETIME_1Year' )
 BEGIN
-    CREATE PARTITION FUNCTION PF_TruckLoadMarket_DATETIME_1Year ( DATETIME ) AS RANGE RIGHT FOR VALUES ( '2017-01-01 00:00:00.000' ); 
+    CREATE PARTITION FUNCTION PF_TruckLoadMarket_SMALLDATETIME_1Year ( SMALLDATETIME ) AS RANGE RIGHT FOR VALUES ( '2017-01-01 00:00:00.000' ); 
 
-    PRINT '- Partition Function [PF_TruckLoadMarket_DATETIME_1Year] added';
+    PRINT '- Partition Function [PF_TruckLoadMarket_SMALLDATETIME_1Year] added';
 END;
 ELSE
 BEGIN
@@ -75,11 +75,11 @@ GO
 --===================================================================================================
 PRINT '*** ADD PARTITION SCHEME ***';
 
-IF NOT EXISTS ( SELECT 1 FROM sys.partition_schemes WHERE name = 'PS_TruckLoadMarket_DATETIME_1Year' )
+IF NOT EXISTS ( SELECT 1 FROM sys.partition_schemes WHERE name = 'PS_TruckLoadMarket_SMALLDATETIME_1Year' )
 BEGIN
-    CREATE PARTITION SCHEME PS_TruckLoadMarket_DATETIME_1Year AS PARTITION PF_TruckLoadMarket_DATETIME_1Year TO ( TruckLoadMarket_Archive, [PRIMARY] );
+    CREATE PARTITION SCHEME PS_TruckLoadMarket_SMALLDATETIME_1Year AS PARTITION PF_TruckLoadMarket_SMALLDATETIME_1Year TO ( TruckLoadMarket_Archive, [PRIMARY] );
 
-	PRINT '- Partition Scheme [PS_TruckLoadMarket_DATETIME_1Year] added';
+	PRINT '- Partition Scheme [PS_TruckLoadMarket_SMALLDATETIME_1Year] added';
 END;
 ELSE
 BEGIN
@@ -89,12 +89,10 @@ GO
 
 --Verify: Check existance
 /*
-SELECT * FROM sys.partition_functions WHERE name = 'PF_TruckLoadMarket_DATETIME_1Year';
+SELECT * FROM sys.partition_functions WHERE name = 'PF_TruckLoadMarket_SMALLDATETIME_1Year';
 
-SELECT * FROM sys.partition_schemes WHERE name = 'PS_TruckLoadMarket_DATETIME_1Year';
+SELECT * FROM sys.partition_schemes WHERE name = 'PS_TruckLoadMarket_SMALLDATETIME_1Year';
 
 SELECT * FROM sys.filegroups WHERE name = 'TruckLoadMarket_Archive'
 
 */
-
-
