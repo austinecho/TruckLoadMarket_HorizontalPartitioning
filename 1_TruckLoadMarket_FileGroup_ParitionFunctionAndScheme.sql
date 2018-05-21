@@ -40,7 +40,7 @@ BEGIN
 	ELSE IF ( SELECT @@SERVERNAME ) = 'DATATEAM4-DB01\DB01'
 	BEGIN
 		--DEV DT4 --Note: D:\Data\EchoTrak\EchoTrak_Primary.mdf --PRIMARY
-		ALTER DATABASE TruckLoadMarket ADD FILE ( NAME = 'TruckLoadMarket_Archive', FILENAME = N'D:\Data\TruckLoadMarket_Archive.NDF', SIZE = 6GB, MAXSIZE = UNLIMITED, FILEGROWTH = 1GB )
+		ALTER DATABASE TruckLoadMarket ADD FILE ( NAME = 'TruckLoadMarket_Archive', FILENAME = N'D:\Data\TruckLoadMarket_Archive.NDF', SIZE = 500MB, MAXSIZE = UNLIMITED, FILEGROWTH = 500MB )
 		TO FILEGROUP TruckLoadMarket_Archive;
 		PRINT '- File [TruckLoadMarket_Archive] added';
 	END;

@@ -58,6 +58,9 @@ PRINT '***************************';
 --************************************************
 PRINT 'Working on table [LoadToEquip].[LoadToEquipment] ...';
 
+IF @@SERVERNAME = 'DB01VPRD'
+BEGIN
+
 IF EXISTS ( SELECT  1
             FROM    sys.objects
             WHERE   type_desc = 'PRIMARY_KEY_CONSTRAINT'
@@ -67,6 +70,37 @@ IF EXISTS ( SELECT  1
         ALTER TABLE LoadToEquip.LoadToEquipment DROP CONSTRAINT PK__LoadToEq__0A6E807B7F60ED59;
         PRINT '- PK [PK__LoadToEq__0A6E807B7F60ED59] Dropped';
     END;
+END
+
+ELSE IF @@SERVERNAME LIKE 'QA%'
+BEGIN
+
+	IF EXISTS (   SELECT 1
+				  FROM   sys.objects
+				  WHERE  type_desc = 'PRIMARY_KEY_CONSTRAINT'
+					AND  parent_object_id = OBJECT_ID( N'LoadToEquip.LoadToEquipment' )
+					AND  name = N'PK__LoadToEq__0A6E807B7F60ED59'
+			  )
+	BEGIN    
+		ALTER TABLE LoadToEquip.LoadToEquipment DROP CONSTRAINT PK__LoadToEq__0A6E807B7F60ED59;
+		PRINT '- PK [PK__LoadToEq__0A6E807B7F60ED59] Dropped';
+	END;
+END
+
+ELSE IF @@SERVERNAME = 'DATATEAM4-DB01\DB01'
+BEGIN
+
+	IF EXISTS (   SELECT 1
+				  FROM   sys.objects
+				  WHERE  type_desc = 'PRIMARY_KEY_CONSTRAINT'
+					AND  parent_object_id = OBJECT_ID( N'LoadToEquip.LoadToEquipment' )
+					AND  name = N'PK__LoadToEq__0A6E807B7F60ED59'
+			  )
+	BEGIN    
+		ALTER TABLE LoadToEquip.LoadToEquipment DROP CONSTRAINT PK__LoadToEq__0A6E807B7F60ED59;
+		PRINT '- PK [PK__LoadToEq__0A6E807B7F60ED59] Dropped';
+	END;
+END
 
 --===================================================================================================
 --[CREATE CLUSTERED INDEX]

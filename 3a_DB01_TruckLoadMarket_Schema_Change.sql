@@ -122,17 +122,50 @@ PRINT '***************************';
 --************************************************
 PRINT 'Working on table [LoadToEquip].[LoadToEquipment] ...';
 
-IF EXISTS (   SELECT 1
-              FROM   sys.objects
-              WHERE  type_desc = 'PRIMARY_KEY_CONSTRAINT'
-                AND  parent_object_id = OBJECT_ID( N'LoadToEquip.LoadToEquipment' )
-				AND  name = N'PUT PK NAME HERE'
-          )
-BEGIN    
-	ALTER TABLE LoadToEquip.LoadToEquipment DROP CONSTRAINT PK__LoadToEq__0A6E807B7F60ED59;
-    PRINT '- PK [PK__LoadToEq__0A6E807B7F60ED59] Dropped';
-END;
+IF @@SERVERNAME = 'DB01VPRD'
+BEGIN
 
+	IF EXISTS (   SELECT 1
+				  FROM   sys.objects
+				  WHERE  type_desc = 'PRIMARY_KEY_CONSTRAINT'
+					AND  parent_object_id = OBJECT_ID( N'LoadToEquip.LoadToEquipment' )
+					AND  name = N'PK__LoadToEq__0A6E807B7F60ED59'
+			  )
+	BEGIN    
+		ALTER TABLE LoadToEquip.LoadToEquipment DROP CONSTRAINT PK__LoadToEq__0A6E807B7F60ED59;
+		PRINT '- PK [PK__LoadToEq__0A6E807B7F60ED59] Dropped';
+	END;
+END
+
+ELSE IF @@SERVERNAME LIKE 'QA%'
+BEGIN
+
+	IF EXISTS (   SELECT 1
+				  FROM   sys.objects
+				  WHERE  type_desc = 'PRIMARY_KEY_CONSTRAINT'
+					AND  parent_object_id = OBJECT_ID( N'LoadToEquip.LoadToEquipment' )
+					AND  name = N'PK__LoadToEq__0A6E807B7F60ED59'
+			  )
+	BEGIN    
+		ALTER TABLE LoadToEquip.LoadToEquipment DROP CONSTRAINT PK__LoadToEq__0A6E807B7F60ED59;
+		PRINT '- PK [PK__LoadToEq__0A6E807B7F60ED59] Dropped';
+	END;
+END
+
+ELSE IF @@SERVERNAME = 'DATATEAM4-DB01\DB01'
+BEGIN
+
+	IF EXISTS (   SELECT 1
+				  FROM   sys.objects
+				  WHERE  type_desc = 'PRIMARY_KEY_CONSTRAINT'
+					AND  parent_object_id = OBJECT_ID( N'LoadToEquip.LoadToEquipment' )
+					AND  name = N'PK__LoadToEq__0A6E807B014935CB'
+			  )
+	BEGIN    
+		ALTER TABLE LoadToEquip.LoadToEquipment DROP CONSTRAINT PK__LoadToEq__0A6E807B014935CB;
+		PRINT '- PK [PK__LoadToEq__0A6E807B014935CB] Dropped';
+	END;
+END
 --===================================================================================================
 --[CREATE CLUSTERED INDEX]
 --===================================================================================================
@@ -176,30 +209,6 @@ ADD CONSTRAINT PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate
     PRIMARY KEY NONCLUSTERED ( LoadToEquipmentID, RecordedDate)
     WITH ( SORT_IN_TEMPDB = ON, ONLINE = ON ) ON PS_TruckLoadMarket_DATETIME_1Year(RecordedDate);
 PRINT '- PK [PK_LoadToEquip_LoadToEquipment_LoadToEquipmentID_RecordedDate] Created';
-
-
---===================================================================================================
---[CREATE UX]
---===================================================================================================
-PRINT '***************************';
-PRINT '*** Create Unique Index ***';
-PRINT '***************************';
-
---************************************************
-PRINT 'Working on table [LoadToEquip].[LoadToEquipment] ...';
-
-IF EXISTS ( SELECT 1 FROM sys.sysindexes WHERE name = 'UX_LoadToEquip_LoadToEquipment_LoadToEquipmentID' )
-BEGIN
-    DROP INDEX UX_LoadToEquip_LoadToEquipment_LoadToEquipmentID ON LoadToEquip.LoadToEquipment;
-	PRINT '- Index [UX_LoadToEquip_LoadToEquipment_LoadToEquipmentID] Dropped';
-END;
-
-CREATE UNIQUE NONCLUSTERED INDEX UX_LoadToEquip_LoadToEquipment_LoadToEquipmentID
-ON LoadToEquip.LoadToEquipment ( LoadToEquipmentID )
-WITH ( SORT_IN_TEMPDB = ON, ONLINE = ON ) ON [PRIMARY];
-PRINT '- Index [UX_LoadToEquip_LoadToEquipment_LoadToEquipmentID] Created';
-GO
-
 
 --===================================================================================================
 --[CREATE FK]

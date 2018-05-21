@@ -1,0 +1,65 @@
+	
+5/18/2018 3:49 PM - PL
+1_TruckLoadMarket_FileGroup_PartitionFunctionAndScheme.sql
+1) Line 22 check name = '$TruckLoadMarket_Archive'.  That $ is an error from those snippets.
+-- AP - Done
+2) Line 41 change the dev file size to a lower amount, ran into space issues the other day cuz I left them that high.
+-- AP - Done
+
+2_DB01_TruckLoadMarket_Remove_From_Replication
+1) approved
+
+3a_DB01_TruckLoadMarket_Schema_Change.sql
+1) I think you only need to drop foreign keys that reference the PK that is being dropped.
+-- AP - I think you're right, but they're named incorrectly as is so this will name them according to conventions
+2) Line 126 put the PK name there, another snippet related issue
+-- AP - Done
+
+3) For the section that removes PK's either this value will need to be changed each time to match the PK of the environment or a if statement determining which server and a section for dev/qa/prod will need to be added.
+-- AP - Done, will change the QA PK when I know which env we are in
+
+4) No foreign keys reference this pk, is the UX needed on this column?
+-- AP - Removed UX
+
+3aa_DB02_TruckLoadMarket_Schema_Change.sql
+1) For the section that removes PK's either this value will need to be changed each time to match the PK of the environment or a if statement determining which server and a section for dev/qa/prod will need to be added.
+-- AP - Done, will change the QA PK when I know which env we are in
+
+4_TruckLoadMarket_Partition_Validation
+1) Approved
+
+5_DB01_TruckLoadMarket_Add_Back_To_Replication
+1) approved
+
+DEV__1_TruckLoadMarket_FileGroup_PartitionFunctionAndScheme
+1) I didn't see this in git anywhere
+-- AP - I actually don't think this is needed anymore because that's handled in 1_TruckLoadMarket_FileGroup_ParitionFunctionAndScheme. I can remove from the Excel file.
+
+SVN - TruckLoadMarket_Archive.sql
+1) approved
+
+SVN - PS_TruckLoadMarket_DATETIME_1Year.sql
+1) approved
+
+SVN - PF_TruckLoadMarket_DATETIME_1Year.sql
+1) approved
+
+DB01 - LoadToEquip.LoadToEquipment.sql
+1) Does the PK constraint need the NONCLUSTERED keyword?
+-- AP - I don't think it needs it because I believe it sees the CIX created on the table and makes the PK nonclustered but I added it
+
+2) Add the new clustered index definition
+-- AP - Added
+
+3) Does RecordedDate need to be marked NOT FOR REPLICATION also?
+-- AP - I think it is only needed on identity columns
+
+DB02 - LoadToEquip.LoadToEquipment.sql
+1) Add the new clustered index definition
+-- AP - Added
+
+2) Does RecordedDate need to be marked NOT FOR REPLICATION also?
+-- AP - I think it is only needed on identity columns
+
+3) Does the PK definition need the NONCLUSTERED keyword?
+-- AP - I don't think it needs it because I believe it sees the CIX created on the table and makes the PK nonclustered but I added it
