@@ -166,6 +166,29 @@ BEGIN
 		PRINT '- PK [PK__LoadToEq__0A6E807B014935CB] Dropped';
 	END;
 END
+
+--===================================================================================================
+--[REMOVE NON CLUSTERED INDEX]
+--===================================================================================================
+PRINT '******************************';
+PRINT '*** Remove Non Clustered Index ***';
+PRINT '******************************';
+
+--************************************************
+PRINT 'Working on table [LoadToEquip].[LoadToEquipment] ...';
+
+IF EXISTS ( SELECT 1 FROM sys.sysindexes WHERE name = 'IX_LoadToEquipment_DestMarketID_OriginMarketID' )
+BEGIN
+    DROP INDEX IX_LoadToEquipment_DestMarketID_OriginMarketID ON LoadToEquip.LoadToEquipment;
+	PRINT '- Index [IX_LoadToEquipment_DestMarketID_OriginMarketID] Dropped';
+END;
+
+IF EXISTS ( SELECT 1 FROM sys.sysindexes WHERE name = 'IX_LoadToEquipment_EquipmentCategoryCode_DestMarketID_OriginMarketID' )
+BEGIN
+    DROP INDEX IX_LoadToEquipment_EquipmentCategoryCode_DestMarketID_OriginMarketID ON LoadToEquip.LoadToEquipment;
+	PRINT '- Index [IX_LoadToEquipment_EquipmentCategoryCode_DestMarketID_OriginMarketID] Dropped';
+END;
+
 --===================================================================================================
 --[CREATE CLUSTERED INDEX]
 --===================================================================================================
@@ -249,6 +272,39 @@ PRINT '- FK [FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_Mark
 ALTER TABLE LoadToEquip.LoadToEquipment CHECK CONSTRAINT FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_MarketID;
 PRINT '- FK [FK_LoadToEquip_LoadToEquipment_OriginMarketID_Reference_Market_MarketID] Enabled';
 GO
+
+--===================================================================================================
+--[CREATE NON CLUSTERED INDEX]
+--===================================================================================================
+PRINT '******************************';
+PRINT '*** Create Non Clustered Index ***';
+PRINT '******************************';
+
+--************************************************
+PRINT 'Working on table [LoadToEquip].[LoadToEquipment] ...';
+
+IF EXISTS ( SELECT 1 FROM sys.sysindexes WHERE name = 'IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_EquipmentCategoryCode_Incl' )
+BEGIN
+    DROP INDEX IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_EquipmentCategoryCode_Incl ON LoadToEquip.LoadToEquipment;
+	PRINT '- Index [IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_EquipmentCategoryCode_Incl] Dropped';
+END;
+
+CREATE NONCLUSTERED INDEX [IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_EquipmentCategoryCode_Incl] 
+ON [LoadToEquip].[LoadToEquipment] 
+(
+	[OriginMarketID],
+	[DestMarketID],
+	[EquipmentCategoryCode]
+)
+INCLUDE 
+( [LoadToEquipmentRatio]
+, [RecordedDate]
+, [EquipmentCount]
+, [LoadCount]
+) 
+GO
+
+PRINT '- Index [IX_LoadToEquip_LoadToEquipment_OriginMarketID_DestMarketID_EquipmentCategoryCode_Incl] Created';
 
 --===================================================================================================
 --[UPDATE STATS]
